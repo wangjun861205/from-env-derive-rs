@@ -2,8 +2,6 @@ use proc_macro::TokenStream;
 use proc_macro2::{Ident, TokenStream as TokenStream2};
 use syn::parse_macro_input;
 
-pub use from_env::FromEnv;
-
 fn init_value(field: &syn::Field) -> TokenStream2 {
     for attr in &field.attrs {
         if attr.path().is_ident("env_var") {
