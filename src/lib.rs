@@ -50,7 +50,7 @@ pub fn from_env(input: TokenStream) -> TokenStream {
         }
         return quote::quote! {
             impl #name {
-                fn from_env() -> Self {
+                pub fn from_env() -> Self {
                     Self {
                         #(#values)*
                     }
