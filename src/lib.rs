@@ -22,20 +22,20 @@ fn init_value(field: &syn::Field) -> TokenStream2 {
     if let Some(env_var) = tags.env_var {
         if let Some(env_default) = tags.env_default {
             return quote::quote! {
-                #name: <#typ as FromEnv>::from_env(std::env::var(&stringify!(#env_var)).ok(), Some(#env_default.to_owned())),
+                #name: <#typ as FromEnv>::from_env(&stringify!(#env_var), std::env::var(&stringify!(#env_var)).ok(), Some(#env_default.to_owned())),
             };
         }
         return quote::quote! {
-            #name: <#typ as FromEnv>::from_env(std::env::var(&stringify!(#env_var)).ok(), None),
+            #name: <#typ as FromEnv>::from_env(&stringify!(#env_var), std::env::var(&stringify!(#env_var)).ok(), None),
         };
     }
     if let Some(env_default) = tags.env_default {
         return quote::quote! {
-            #name: <#typ as FromEnv>::from_env(std::env::var(&stringify!(#name).to_uppercase()).ok(), Some(#env_default.to_owned())),
+            #name: <#typ as FromEnv>::from_env(&stringify!(#name), std::env::var(&stringify!(#name).to_uppercase()).ok(), Some(#env_default.to_owned())),
         };
     }
     quote::quote! {
-        #name: <#typ as FromEnv>::from_env(std::env::var(&stringify!(#name).to_uppercase()).ok(), None),
+        #name: <#typ as FromEnv>::from_env(&stringify!(#name), std::env::var(&stringify!(#name).to_uppercase()).ok(), None),
     }
 }
 
